@@ -1,0 +1,37 @@
+{
+  "model": {
+    "id": "yolov8s_shelves",
+    "name": "Warehouse Shelves Detector (Small)",
+    "version": "2.0",
+    "task": "object-detection",
+    "base_architecture": "yolov8s"
+  },
+  "training": {
+    "framework": "ultralytics",
+    "hardware_used": "NVIDIA GeForce RTX 4060 (8188MiB)",
+    "epochs": 150,
+    "batch_size": 16,
+    "imgsz": 640,
+    "training_time_hours": 5.07
+  },
+  "dataset": {
+    "name": "shelves",
+    "total_images_generated": 1673,
+    "train_split": 1462,
+    "val_split": 211,
+    "classes": [
+      "item"
+    ]
+  },
+  "metrics": {
+    "mAP50": 0.865,
+    "mAP50_95": 0.499,
+    "precision": 0.884,
+    "recall": 0.827,
+    "inference_speed_ms": 5.5
+  },
+  "files": {
+    "weights": "weights.pt",
+    "config": "train_config.yaml"
+  }
+}

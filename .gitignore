@@ -1,0 +1,66 @@
+# ==============================================================================
+# .gitignore para o Projeto de Monitorização de Prateleiras (YOLOv8)
+# ==============================================================================
+
+# 1. Variáveis de Ambiente e Segredos
+.env
+.env.*
+*.env
+
+# 2. Ambientes Virtuais (Python)
+.venv/
+venv/
+env/
+submissao/app/.venv_portable/
+
+# 3. Cache e Ficheiros Temporários do Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+
+# 4. Datasets (Ignorar imagens e labels, manter MD e YAML)
+# Dataset Shelves (Submissão)
+submissao/dataset/train/
+submissao/dataset/valid/
+submissao/dataset/test/
+submissao/dataset/*.cache
+
+# Dataset SKU-110K (Se estiver na raiz com as imagens)
+dataset_sku110k/train/
+dataset_sku110k/valid/
+dataset_sku110k/test/
+dataset_sku110k/*.cache
+
+# 5. Ficheiros de Treino (YOLO / Ultralytics)
+runs/
+yolov8n.pt
+yolov8s.pt
+yolov8m.pt
+yolov8l.pt
+yolov8x.pt
+*.weights
+
+# 6. Pastas Temporárias e IDEs
+temp/
+.vscode/
+.idea/
+*.swp
+.DS_Store

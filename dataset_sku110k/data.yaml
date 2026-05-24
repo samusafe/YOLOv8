@@ -1,0 +1,12 @@
+names:
+- Item
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: sku-110k-dataset
+  url: https://universe.roboflow.com/large-benchmark-datasets/sku-110k-dataset/dataset/1
+  version: 1
+  workspace: large-benchmark-datasets
+test: ../test/images
+train: ../train/images
+val: ../valid/images
