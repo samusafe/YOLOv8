@@ -26,98 +26,82 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
 
+    /* BASE: Streamlit Native Variables (Adapta-se a Light/Dark automaticamente) */
     *, html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-    .main { background-color: #0a0e17; }
 
     /* Header hero */
     .hero-title {
         font-size: 2.4rem; font-weight: 900; letter-spacing: -0.5px;
-        background: linear-gradient(135deg, #00FFCC 0%, #00B4D8 50%, #7B2FFF 100%);
+        background: linear-gradient(135deg, #00B4D8 0%, #7B2FFF 100%);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         margin-bottom: 0;
     }
     .hero-subtitle {
-        font-size: 1rem; color: #64748b; margin-top: 4px; margin-bottom: 24px;
-    }
-
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0f1420 0%, #0a0e17 100%);
-        border-right: 1px solid rgba(0, 255, 204, 0.08);
-    }
-    section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] h3 {
-        color: #00FFCC !important; font-weight: 800;
+        font-size: 1rem; color: var(--text-color); opacity: 0.6; margin-top: 4px; margin-bottom: 24px;
     }
 
     /* Metric cards */
     .metric-card {
-        background: linear-gradient(135deg, #141824 0%, #0d1117 100%);
+        background-color: var(--secondary-background-color);
         border-radius: 16px; padding: 24px;
-        border: 1px solid rgba(0, 255, 204, 0.12);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         text-align: center; transition: all 0.3s ease;
     }
     .metric-card:hover {
-        border-color: rgba(0, 255, 204, 0.35);
-        box-shadow: 0 8px 40px rgba(0, 255, 204, 0.08);
         transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border-color: rgba(128, 128, 128, 0.4);
     }
     .metric-value {
         font-size: 2.8rem; font-weight: 900; margin: 0; line-height: 1;
-        background: linear-gradient(135deg, #00FFCC, #00B4D8);
+        background: linear-gradient(135deg, #00B4D8, #7B2FFF);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .metric-label {
-        font-size: 0.8rem; color: #64748b; margin-top: 8px;
+        font-size: 0.8rem; color: var(--text-color); margin-top: 8px; opacity: 0.7;
         text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
-    }
-    .metric-card-alt .metric-value {
-        background: linear-gradient(135deg, #7B2FFF, #E040FB);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
     /* Detection table */
     .det-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
     .det-table th {
-        background: #141824; color: #00FFCC; padding: 10px 14px;
+        background-color: var(--secondary-background-color); 
+        color: var(--text-color); padding: 10px 14px;
         text-align: left; font-size: 0.75rem; text-transform: uppercase;
-        letter-spacing: 1.5px; border-bottom: 2px solid rgba(0,255,204,0.2);
+        letter-spacing: 1.5px; border-bottom: 2px solid rgba(128,128,128,0.2);
     }
     .det-table td {
-        padding: 8px 14px; color: #cbd5e1; font-size: 0.85rem;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding: 8px 14px; color: var(--text-color); font-size: 0.85rem;
+        border-bottom: 1px solid rgba(128,128,128,0.1);
     }
-    .det-table tr:hover td { background: rgba(0,255,204,0.04); }
-    .conf-high { color: #00FFCC; font-weight: 700; }
-    .conf-mid { color: #fbbf24; font-weight: 700; }
-    .conf-low { color: #f87171; font-weight: 700; }
+    .det-table tr:hover td { background-color: var(--secondary-background-color); }
+    .conf-high { color: #10b981; font-weight: 700; }
+    .conf-mid { color: #f59e0b; font-weight: 700; }
+    .conf-low { color: #ef4444; font-weight: 700; }
 
     /* Tabs */
     .stTabs [data-baseweb="tab-list"] { gap: 8px; }
     .stTabs [data-baseweb="tab"] {
-        background: #141824; border-radius: 8px 8px 0 0; padding: 10px 20px;
-        color: #94a3b8; font-weight: 600; border: 1px solid transparent;
+        background-color: var(--secondary-background-color); border-radius: 8px 8px 0 0; padding: 10px 20px;
+        color: var(--text-color); font-weight: 600; border: 1px solid transparent; opacity: 0.8;
     }
     .stTabs [aria-selected="true"] {
-        background: #1a1f2e !important; color: #00FFCC !important;
-        border-color: rgba(0,255,204,0.3) !important;
+        background-color: var(--background-color) !important; color: var(--primary-color) !important;
+        border-color: rgba(128,128,128,0.3) !important; opacity: 1;
     }
 
     /* Buttons */
     .stButton>button {
-        background: linear-gradient(135deg, #00FFCC, #00B4D8) !important;
-        color: #0a0e17 !important; font-weight: 800 !important;
+        background: linear-gradient(135deg, #00B4D8, #7B2FFF) !important;
+        color: white !important; font-weight: 800 !important;
         border: none !important; border-radius: 12px !important;
         padding: 12px 24px !important; transition: all 0.3s ease !important;
     }
     .stButton>button:hover {
         transform: translateY(-1px) !important;
-        box-shadow: 0 8px 25px rgba(0,255,204,0.3) !important;
+        box-shadow: 0 8px 25px rgba(123,47,255,0.3) !important;
     }
-
-    /* Section headers */
-    h1, h2, h3 { color: #e2e8f0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
