@@ -149,6 +149,9 @@ MODEL_REGISTRY = {
     },
 }
 
+HISTORY_DIR = os.path.join(os.path.dirname(__file__), '..', 'historico')
+os.makedirs(HISTORY_DIR, exist_ok=True)
+
 @st.cache_resource
 def load_model(path):
     if os.path.exists(path):
@@ -258,8 +261,8 @@ st.markdown("<p class='hero-subtitle'>Sistema inteligente de deteção de invent
 # ==========================================
 # TABS PRINCIPAIS
 # ==========================================
-tab1, tab2, tab3, tab4 = st.tabs([
-    "🔍 Inferência", "⚖️ Comparar Modelos", "📷 Webcam ao Vivo", "📊 Dashboard"
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "🔍 Inferência", "⚖️ Comparar Modelos", "📷 Webcam ao Vivo", "📊 Dashboard", "🕒 Histórico"
 ])
 
 # ─────────── TAB 1: INFERÊNCIA ───────────
@@ -303,6 +306,15 @@ with tab1:
 
                 if num > 0:
                     json_out = get_results_json(df)
+                    
+                    # Salvar Histórico (Bónus)
+                    from datetime import datetime
+                    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    base_name = os.path.join(HISTORY_DIR, ts)
+                    Image.fromarray(annotated).save(f"{base_name}_annotated.jpg")
+                    with open(f"{base_name}_data.json", "w", encoding="utf-8") as f:
+                        f.write(json_out)
+                        
                     st.download_button(
                         "⬇️ Exportar Resultados (JSON)",
                         data=json_out,
@@ -321,6 +333,8 @@ with tab1:
                 stop_video = st.button("🛑 Parar Reprodução", key="stop_vid")
                 
                 cam = cv2.VideoCapture(tmp_path)
+                video_results = []
+                frame_count = 0
                 
                 while cam.isOpened() and not stop_video:
                     ret, frame = cam.read()
@@ -331,12 +345,45 @@ with tab1:
                     plotted = res[0].plot()
                     FRAME_WINDOW.image(cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB), width="stretch")
                     
+                    # Guardar deteções deste frame para o JSON
+                    df = get_detections_df(res)
+                    if not df.empty:
+                        frame_dets = []
+                        for _, row in df.iterrows():
+                            frame_dets.append({
+                                "class": row["Classe"],
+                                "confidence": round(row["Confiança"], 4),
+                                "bbox": {"x1": row["X1"], "y1": row["Y1"], "x2": row["X2"], "y2": row["Y2"]}
+                            })
+                        video_results.append({
+                            "frame": frame_count,
+                            "detections": frame_dets
+                        })
+                    frame_count += 1
+                    
                 cam.release()
                 try:
                     os.remove(tmp_path)
                 except:
                     pass
                 st.success("Processamento do vídeo concluído!")
+
+                if video_results:
+                    json_out = json.dumps({"video_analysis": video_results, "total_frames_with_detections": len(video_results)}, indent=2, ensure_ascii=False)
+                    
+                    # Salvar Histórico do Vídeo (Bónus)
+                    from datetime import datetime
+                    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    base_name = os.path.join(HISTORY_DIR, ts)
+                    with open(f"{base_name}_video_data.json", "w", encoding="utf-8") as f:
+                        f.write(json_out)
+                        
+                    st.download_button(
+                        "⬇️ Exportar Deteções do Vídeo (JSON)",
+                        data=json_out,
+                        file_name="video_detections.json",
+                        mime="application/json"
+                    )
 
 # ─────────── TAB 2: COMPARAR MODELOS ───────────
 with tab2:
@@ -471,3 +518,34 @@ with tab4:
                 st.image(cm_img, width="stretch")
             else:
                 st.caption("Matriz não disponível")
+
+# ─────────── TAB 5: HISTÓRICO ───────────
+with tab5:
+    st.markdown("### 🕒 Histórico de Inferências")
+    st.markdown("Revisita as inferências guardadas automaticamente no sistema.")
+    
+    history_files = sorted([f for f in os.listdir(HISTORY_DIR) if f.endswith(".json")], reverse=True)
+    
+    if not history_files:
+        st.info("Nenhum histórico disponível ainda. Testa algumas imagens ou vídeos na aba Inferência!")
+    else:
+        def format_hist(x):
+            return x.replace(".json", "").replace("_data", "").replace("_video", " (Vídeo)")
+            
+        selected_hist = st.selectbox("Escolhe um registo:", history_files, format_func=format_hist)
+        
+        if selected_hist:
+            hist_path = os.path.join(HISTORY_DIR, selected_hist)
+            with open(hist_path, "r", encoding="utf-8") as f:
+                hist_data = json.load(f)
+                
+            st.markdown(f"**Detalhes do Registo:** `{selected_hist}`")
+            
+            if "video" not in selected_hist:
+                img_file = selected_hist.replace("_data.json", "_annotated.jpg")
+                img_path = os.path.join(HISTORY_DIR, img_file)
+                if os.path.exists(img_path):
+                    st.image(img_path, width="stretch", caption="Imagem Guardada pelo Sistema")
+                
+            st.markdown("#### Dados do JSON")
+            st.json(hist_data)
