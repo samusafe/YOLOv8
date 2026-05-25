@@ -1,0 +1,34 @@
+{
+  "model": {
+    "id": "yolov8n_pallets",
+    "name": "Pallet Warehouse Detector (Nano)",
+    "version": "4.0",
+    "task": "object-detection",
+    "base_architecture": "yolov8n_sku"
+  },
+  "training": {
+    "framework": "ultralytics",
+    "hardware_used": "NVIDIA GeForce RTX 4060 (8188MiB)",
+    "epochs": 50,
+    "batch_size": 16,
+    "imgsz": 640,
+    "training_time_hours": 0.1
+  },
+  "dataset": {
+    "name": "Pallet Detection",
+    "source": "https://universe.roboflow.com/pallet-detection-qy9uv/pallet-detection-hcw8s",
+    "total_images": 972,
+    "classes": ["item"]
+  },
+  "metrics": {
+    "mAP50": 0.987,
+    "mAP50_95": 0.758,
+    "precision": 0.960,
+    "recall": 0.976,
+    "inference_speed_ms": 3.2
+  },
+  "files": {
+    "weights": "weights.pt",
+    "config": "train_config.yaml"
+  }
+}
