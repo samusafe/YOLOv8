@@ -7,6 +7,6 @@ roboflow:
   url: https://universe.roboflow.com/large-benchmark-datasets/sku-110k-dataset/dataset/1
   version: 1
   workspace: large-benchmark-datasets
-test: ../test/images
-train: ../train/images
-val: ../valid/images
+test: test/images
+train: train/images
+val: valid/images
