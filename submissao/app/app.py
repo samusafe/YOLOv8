@@ -6,6 +6,7 @@ from PIL import Image
 import os
 import cv2
 import json
+import tempfile
 
 
 # ==========================================
@@ -261,47 +262,76 @@ with tab1:
     col_upload, col_results = st.columns([1, 1.4])
 
     with col_upload:
-        st.markdown("### Inserir Imagem")
+        st.markdown("### Inserir Imagem ou Vídeo")
         selected_model_name = st.selectbox("Modelo a utilizar:", list(available_models.keys()), key="inf_model")
-        uploaded = st.file_uploader("Arraste ou escolha uma imagem", type=["jpg", "jpeg", "png"], key="inf_upload")
+        uploaded = st.file_uploader("Arraste ou escolha um ficheiro", type=["jpg", "jpeg", "png", "mp4", "avi", "mov"], key="inf_upload")
 
     if uploaded:
-        image = Image.open(uploaded).convert("RGB")
         model = load_model(available_models[selected_model_name]["path"])
+        file_ext = uploaded.name.split(".")[-1].lower()
 
         with col_results:
             st.markdown("### Resultados")
-            with st.spinner("A processar inferência na GPU..."):
-                results = model.predict(source=image, conf=confidence, verbose=False)
-                annotated = results[0].plot()[..., ::-1]
-                st.image(annotated, width="stretch")
+            
+            if file_ext in ["jpg", "jpeg", "png"]:
+                image = Image.open(uploaded).convert("RGB")
+                with st.spinner("A processar inferência na GPU..."):
+                    results = model.predict(source=image, conf=confidence, verbose=False)
+                    annotated = results[0].plot()[..., ::-1]
+                    st.image(annotated, width="stretch")
 
-                df = get_detections_df(results)
-                num = len(df)
+                    df = get_detections_df(results)
+                    num = len(df)
 
-            # Métricas
-            m1, m2 = st.columns(2)
-            with m1:
-                st.markdown(f"<div class='metric-card'><p class='metric-value'>{num}</p>"
-                            f"<p class='metric-label'>Produtos Detetados</p></div>", unsafe_allow_html=True)
-            with m2:
-                avg_conf = f"{df['Confiança'].mean():.1%}" if num > 0 else "N/A"
-                st.markdown(f"<div class='metric-card metric-card-alt'><p class='metric-value'>{avg_conf}</p>"
-                            f"<p class='metric-label'>Confiança Média</p></div>", unsafe_allow_html=True)
+                # Métricas
+                m1, m2 = st.columns(2)
+                with m1:
+                    st.markdown(f"<div class='metric-card'><p class='metric-value'>{num}</p>"
+                                f"<p class='metric-label'>Produtos Detetados</p></div>", unsafe_allow_html=True)
+                with m2:
+                    avg_conf = f"{df['Confiança'].mean():.1%}" if num > 0 else "N/A"
+                    st.markdown(f"<div class='metric-card metric-card-alt'><p class='metric-value'>{avg_conf}</p>"
+                                f"<p class='metric-label'>Confiança Média</p></div>", unsafe_allow_html=True)
 
-        # Tabela de deteções estruturada (exigido pelo enunciado D4!)
-        st.markdown("### 📋 Saída Estruturada — Deteções Individuais")
-        render_detections_table(df)
+                st.markdown("### 📋 Saída Estruturada — Deteções Individuais")
+                render_detections_table(df)
 
-        # Botão de exportação JSON
-        if num > 0:
-            json_out = get_results_json(df)
-            st.download_button(
-                "⬇️ Exportar Resultados (JSON)",
-                data=json_out,
-                file_name="detections.json",
-                mime="application/json"
-            )
+                if num > 0:
+                    json_out = get_results_json(df)
+                    st.download_button(
+                        "⬇️ Exportar Resultados (JSON)",
+                        data=json_out,
+                        file_name="detections.json",
+                        mime="application/json"
+                    )
+            elif file_ext in ["mp4", "avi", "mov"]:
+                # Guardar temporariamente o vídeo carregado
+                with tempfile.NamedTemporaryFile(delete=False, suffix=f".{file_ext}") as tmp:
+                    tmp.write(uploaded.read())
+                    tmp_path = tmp.name
+
+                st.info("A processar vídeo frame a frame... Pode demorar dependendo do tamanho.")
+                
+                FRAME_WINDOW = st.empty()
+                stop_video = st.button("🛑 Parar Reprodução", key="stop_vid")
+                
+                cam = cv2.VideoCapture(tmp_path)
+                
+                while cam.isOpened() and not stop_video:
+                    ret, frame = cam.read()
+                    if not ret:
+                        break
+                    
+                    res = model.predict(source=frame, conf=confidence, verbose=False)
+                    plotted = res[0].plot()
+                    FRAME_WINDOW.image(cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB), width="stretch")
+                    
+                cam.release()
+                try:
+                    os.remove(tmp_path)
+                except:
+                    pass
+                st.success("Processamento do vídeo concluído!")
 
 # ─────────── TAB 2: COMPARAR MODELOS ───────────
 with tab2:
