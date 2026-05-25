@@ -74,7 +74,7 @@ def main():
         f.write(json_str)
     print(f"✅ Resultados guardados com sucesso em: {out_json_path}\n")
     
-    # 4. Imprimir no Terminal (Requisito do Enunciado)
+    # 4. Imprimir no Terminal
     print("📋 --- Saída JSON Estruturada ---")
     print(json_str)
     

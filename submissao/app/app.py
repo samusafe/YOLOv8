@@ -291,7 +291,7 @@ with tab1:
                 if num > 0:
                     json_out = get_results_json(df)
                     
-                    # Salvar Histórico (Bónus)
+                    # Salvar Histórico
                     from datetime import datetime
                     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
                     base_name = os.path.join(HISTORY_DIR, ts)
@@ -355,7 +355,7 @@ with tab1:
                 if video_results:
                     json_out = json.dumps({"video_analysis": video_results, "total_frames_with_detections": len(video_results)}, indent=2, ensure_ascii=False)
                     
-                    # Salvar Histórico do Vídeo (Bónus)
+                    # Salvar Histórico do Vídeo
                     from datetime import datetime
                     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
                     base_name = os.path.join(HISTORY_DIR, ts)
