@@ -43,6 +43,11 @@ submissao/dataset/valid/
 submissao/dataset/test/
 submissao/dataset/*.cache
 
+submissao/dataset_pallets/train/
+submissao/dataset_pallets/valid/
+submissao/dataset_pallets/test/
+submissao/dataset_pallets/*.cache
+
 # Dataset SKU-110K (Se estiver na raiz com as imagens)
 dataset_sku110k/train/
 dataset_sku110k/valid/

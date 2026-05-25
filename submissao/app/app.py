@@ -142,6 +142,11 @@ MODEL_REGISTRY = {
         "tag": "nano_sku", "arch": "yolov8n", "dataset": "SKU-110K (11.7k)",
         "epochs": 50, "color": "#E040FB"
     },
+    "YOLOv8 Nano — Paletes (Armazém)": {
+        "path": os.path.join(MODELS_DIR, "yolov8n_pallets", "weights.pt"),
+        "tag": "nano_pallets", "arch": "yolov8n", "dataset": "Pallet Detection",
+        "epochs": 50, "color": "#FF9900"
+    },
 }
 
 @st.cache_resource

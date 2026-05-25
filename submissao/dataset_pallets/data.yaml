@@ -1,0 +1,12 @@
+names:
+- Item
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: pallet-detection-hcw8s
+  url: https://universe.roboflow.com/pallet-detection-qy9uv/pallet-detection-hcw8s/dataset/1
+  version: 1
+  workspace: pallet-detection-qy9uv
+test: test/images
+train: train/images
+val: valid/images
