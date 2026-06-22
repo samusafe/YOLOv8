@@ -62,8 +62,8 @@ Recomenda-se a utilização de uma versão de **Python 3.9+** e de um ambiente v
 ### 2. Preparação do Ambiente
 ```bash
 # Clone este repositório
-git clone <URL_DO_REPOSITORIO>
-cd <NOME_DO_DIRETORIO>
+git clone https://github.com/samusafe/YOLOv8.git
+cd YOLOv8
 
 # Ative um ambiente virtual e instale os pacotes (exemplo com venv)
 python -m venv venv
