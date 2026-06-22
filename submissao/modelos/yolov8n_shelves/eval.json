@@ -1,0 +1,8 @@
+{
+    "model": "YOLOv8 Nano (Shelves)",
+    "dataset": "../../dataset/data.yaml",
+    "mAP50": 0.8900,
+    "mAP50_95": 0.5340,
+    "precision": 0.8820,
+    "recall": 0.8440
+}

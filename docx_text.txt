@@ -1,0 +1,650 @@
+5040630
+540382
+escola 
+superior
+de tecnologia
+e gestão
+POLITÉCNICO
+DO PORTO
+LEI
+LICENCIATURA
+ENGENHARIA INFORMÁTICA
+Relatório
+Inteligência Artificial
+05
+/
+2026
+-58623
+-3445510
+ 
+5040630
+540382
+escola 
+superior
+de tecnologia
+e gestão
+POLITÉCNICO
+DO PORTO
+LEI
+LICENCIATURA
+ENGENHARIA INFORMÁTICA
+Relatório
+Inteligência Artificial
+ 
+Equipa d
+o trabalho
+:
+8220449
+Guilherme Claúdio Pereira Jorge Canha
+8220442
+Bruno Samuel Fernandes Carvalho
+Índice
+ TOC \o "1-3" \h \z \u 
+Glossário
+ PAGEREF _Toc230620565 \h 
+6
+1. Descrição do Caso de Uso
+ PAGEREF _Toc230620566 \h 
+7
+1.1 Motivação Industrial e Cenário-Alvo
+ PAGEREF _Toc230620567 \h 
+7
+1.2 O que o Modelo Deteta
+ PAGEREF _Toc230620568 \h 
+7
+1.3 Suposições e Restrições
+ PAGEREF _Toc230620569 \h 
+7
+2. Descrição do Conjunto de Dados
+ PAGEREF _Toc230620570 \h 
+8
+2.1 Recolha de Dados
+ PAGEREF _Toc230620571 \h 
+8
+2.2 Tamanho do Conjunto de Dados por Split e Classe
+ PAGEREF _Toc230620572 \h 
+8
+2.3 Política de Etiquetagem
+ PAGEREF _Toc230620573 \h 
+9
+2.4 Estratégias de Augmentation
+ PAGEREF _Toc230620574 \h 
+9
+2.5 Verificações de Qualidade
+ PAGEREF _Toc230620575 \h 
+9
+3. Modelo(s) e Configuração de Treino
+ PAGEREF _Toc230620576 \h 
+10
+3.1 Arquitetura e Pipeline de Treino
+ PAGEREF _Toc230620577 \h 
+10
+3.2 Hiperparâmetros
+ PAGEREF _Toc230620578 \h 
+10
+3.3 Hardware Utilizado
+ PAGEREF _Toc230620579 \h 
+10
+4. Resultados da Avaliação
+ PAGEREF _Toc230620580 \h 
+11
+4.1 Métricas Padrão no Conjunto de Validação
+ PAGEREF _Toc230620581 \h 
+11
+4.2 Análise de Resultados e Erro
+ PAGEREF _Toc230620582 \h 
+11
+5. Notas de Implementação
+ PAGEREF _Toc230620583 \h 
+13
+5.1 Aplicação de Demonstração
+ PAGEREF _Toc230620584 \h 
+13
+5.2 Velocidade de Inferência e Tamanho dos Modelos
+ PAGEREF _Toc230620585 \h 
+15
+5.3 Parâmetros e Configurações
+ PAGEREF _Toc230620586 \h 
+15
+5.4 Ponto de Entrada para Inferência (CLI)
+ PAGEREF _Toc230620587 \h 
+15
+6. Conclusões e Trabalho Futuro
+ PAGEREF _Toc230620588 \h 
+16
+7. Bibliography
+ PAGEREF _Toc230620589 \h 
+17
+Índice de Tabelas
+ TOC \h \z \c "Tabela" 
+Tabela 1 - Dataset Shelves
+ PAGEREF _Toc230620540 \h 
+8
+Tabela 2 - Dataset SKU-110K
+ PAGEREF _Toc230620541 \h 
+8
+Tabela 3 - Dataset Pallets
+ PAGEREF _Toc230620542 \h 
+9
+Tabela 4 - Augmentações Roboflow
+ PAGEREF _Toc230620543 \h 
+9
+Tabela 5 - Augmentações treino
+ PAGEREF _Toc230620544 \h 
+9
+Tabela 6 - Modelos
+ PAGEREF _Toc230620545 \h 
+10
+Tabela 7 - Hiperparâmetros
+ PAGEREF _Toc230620546 \h 
+10
+Tabela 8 - Métricas nos modelos
+ PAGEREF _Toc230620547 \h 
+11
+Tabela 9 - Análise resultados
+ PAGEREF _Toc230620548 \h 
+11
+Tabela 10 - Velocidade e tamanho dos modelos
+ PAGEREF _Toc230620549 \h 
+15
+Índice de Figuras
+ TOC \h \z \c "Figura" 
+Figura 1 - Inferência
+ PAGEREF _Toc230620560 \h 
+13
+Figura 2 - Comparar modelos
+ PAGEREF _Toc230620561 \h 
+13
+Figura 3 - Webcam ao vivo
+ PAGEREF _Toc230620562 \h 
+14
+Figura 4 - Dashboard
+ PAGEREF _Toc230620563 \h 
+14
+Figura 5 - Histórico
+ PAGEREF _Toc230620564 \h 
+15
+Glossário
+YOLOv8
+You Only Look Once v8 — arquitetura de deteção de objetos em tempo real da Ultralytics.
+mAP
+Mean Average Precision — métrica padrão para avaliar modelos de deteção de objetos.
+Bounding Box
+Caixa delimitadora retangular que identifica a localização de um objeto na imagem.
+Epoch
+Uma passagem completa por todos os dados de treino durante o processo de aprendizagem.
+Precision
+Proporção de deteções corretas face ao total de deteções realizadas pelo modelo.
+Recall
+Proporção de objetos reais corretamente detetados face ao total de objetos existentes.
+Augmentation
+Técnicas de transformação aplicadas às imagens para aumentar a diversidade dos dados de treino.
+IoU
+Intersection over Union — medida de sobreposição entre a bounding box prevista e a real.
+NMS
+Non-Maximum Suppression — algoritmo que elimina deteções duplicadas sobrepostas.
+Mosaic
+Técnica de augmentation que combina 4 imagens numa só para enriquecer o contexto de treino.
+AMP
+Automatic Mixed Precision — técnica que acelera o treino usando precisão reduzida (FP16).
+SKU
+Stock Keeping Unit — código único de identificação de um produto em inventário.
+Edge Computing
+Processamento de dados junto ao dispositivo/câmara, sem necessidade de servidor remoto.
+Descrição do Caso de Uso
+Motivação Industrial e Cenário-Alvo
+A gestão eficiente de inventário em ambientes de retalho e armazéns logísticos constitui um desafio operacional significativo. Atualmente, a verificação da disponibilidade de produtos nas prateleiras é feita maioritariamente de forma manual, o que é ineficiente, demorado e propenso a erros humanos. Prateleiras vazias representam vendas perdidas e insatisfação do cliente.
+O presente projeto propõe uma solução de 
+Monitorização Inteligente de Prateleiras
+ baseada em visão por computador, capaz de detetar automaticamente a presença e localização de produtos em prateleiras de armazém ou supermercado. Utilizando modelos de deteção de objetos YOLOv8, o sistema pode processar imagens de prateleiras em tempo real e identificar cada item individual visível.
+ 
+ CITATION Joc23 \l 1033 
+(Jocher, 2023)
+O cenário-alvo inclui:
+Supermercados e lojas de retalho:
+  Monitorização contínua da ocupação das prateleiras para alertar sobre ruturas de stock.
+Armazéns logísticos:
+ Verificação da correta colocação e presença de produtos nas localizações designadas.
+Centros de distribuição:
+ Auditoria visual automatizada da organização do inventário.
+O que o Modelo Deteta
+O sistema deteta uma classe única: 
+item
+ — qualquer produto individual visível numa prateleira. Cada deteção é representada por uma caixa delimitadora (bounding box) com coordenadas normalizadas e um nível de confiança associado.
+O que o sistema explicitamente NÃO cobre:
+Identificação da marca, tipo ou categoria específica de cada produto.
+Deteção de prateleiras vazias (apenas se infere indiretamente pela ausência de deteções numa zona).
+Avaliação do estado da embalagem (dano, deformação).
+A decisão de utilizar uma classe única fundamenta-se no objetivo principal do caso de uso: monitorizar a 
+presença/ausência
+ de produtos para gestão de stock, e não a identificação individual de cada produto. Como trabalho futuro, planeia-se a integração de leitura de códigos QR para identificação de produtos e deteção de zonas sem stock.
+Suposições e Restrições
+Câmara:
+ Posicionamento frontal ou com ângulo ligeiro em relação à prateleira (até ~30°).
+Distância:
+ 0.5 a 3 metros da prateleira.
+Iluminação:
+ Condições de iluminação artificial interior (fluorescente ou LED). O sistema não foi validado para exteriores.
+Fundo:
+ Prateleiras de retalho convencionais (metálicas ou de madeira) com produtos dispostos de forma organizada.
+Descrição do Conjunto de Dados
+Recolha de Dados
+Foram utilizados dois datasets complementares, ambos focados na deteção de produtos em prateleiras:
+Dataset Primário — Shelves (Dataset Curado):
+Fonte:
+ Plataforma Roboflow, projeto `shelves-exlrc-bvskw`.
+ 
+ CITATION Rob24 \l 1033 
+(Roboflow, 2024)
+Imagens:
+ Recolhidas e curadas a partir de imagens públicas de ambientes de retalho, cobrindo diferentes tipos de prateleiras, ângulos e condições de iluminação.
+Anotação:
+ Realizada no Roboflow com bounding boxes em formato YOLOv8 (coordenadas normalizadas).
+Dataset Secundário — SKU-110K (Benchmark Público):
+ 
+ CITATION Gol \l 1033 
+(Goldman, n.d.)
+Fonte:
+ Benchmark público SKU-110K, disponível em Roboflow Universe.
+Imagens:
+ ~11 762 imagens diversificadas de prateleiras de retalho, provenientes de múltiplos ambientes comerciais.
+Justificação:
+ Utilizado para treinar o terceiro modelo (SKU), com o objetivo de avaliar o impacto da dimensão e diversidade do dataset na capacidade de generalização.
+Dataset Terciário — Pallets (Deteção de Paletes):
+Fonte:
+ 
+Roboflow
+ Universe — Pallet Detection Dataset.
+Imagens:
+ ~972 imagens de paletes e caixotes em estantes de armazém industrial.
+Justificação:
+ Utilizado para treinar o quarto modelo (Pallets), aplicando transfer learning a partir dos pesos do modelo SKU-110K, avaliando a capacidade de adaptação a um domínio diferente (logística industrial).
+Tamanho do Conjunto de Dados por Split e Classe
+Dataset Shelves (utilizado nos modelos Nano 50ep e Small 150ep):
+Partição
+Nº de Imagens
+Treino
+1462
+Validação
+151
+Teste
+60
+Total
+1673
+Tabela 
+ SEQ Tabela \* ARABIC 
+1
+ - 
+Dataset Shelves
+Dataset SKU-110K (utilizado no modelo Nano SKU):
+Partição
+Nº de Imagens
+Treino
+8 233
+Validação
+588
+Teste
+2 941
+Total
+11 762
+Tabela 
+ SEQ Tabela \* ARABIC 
+2
+ - Dataset SKU-110K
+Dataset Pallets (utilizado no modelo Nano Pallets com transfer learning):
+Partição
+Nº de Imagens
+Treino
+680
+Validação
+195
+Teste
+97
+Total
+972
+Tabela 
+ SEQ Tabela \* ARABIC 
+3
+ - Dataset Pallets
+Todos os datasets contêm 1 classe (`item`), com milhares de instâncias por imagem (tipicamente 20-60 produtos por prateleira).
+Política de Etiquetagem
+Cada produto individual visível na prateleira é anotado com uma bounding box.
+Produtos parcialmente ocluídos (>50% visíveis) são anotados.
+Produtos completamente ocluídos são ignorados.
+Quando dois produtos estão sobrepostos, cada um recebe a sua própria caixa delimitadora, mesmo que haja sobreposição.
+Etiquetas de preço e sinalética da loja não são anotados.
+Estratégias de Augmentation
+Augmentações aplicadas no Roboflow (dataset Shelves):
+Augmentação
+Parâmetros
+Justificação
+Resize
+Stretch para 640×640
+Normalização para input do YOLOv8
+Horizontal Flip
+Ativado
+Invariância à orientação da prateleira
+Brightness
+-15% a +15%
+Robustez a variações de iluminação
+Blur
+Até 1.25 px
+Simulação de câmaras de menor qualidade
+Multiplicador
+3×
+Triplicação dos dados para maior diversidade
+Tabela 
+ SEQ Tabela \* ARABIC 
+4
+ - Augmentações Roboflow
+Augmentações aplicadas durante o treino (YOLOv8, via Ultralytics):
+Augmentação
+Valor
+Justificação
+Mosaic
+1.0
+Combina 4 imagens para contexto variado
+Flip LR
+0.5
+Invariância horizontal
+HSV (H/S/V)
+0.015 / 0.7 / 0.4
+Variação de cor e iluminação
+Translate
+0.1
+Tolerância a posicionamento da câmara
+Scale
+0.5
+Robustez a diferentes distâncias
+Erasing
+0.4
+Simulação de oclusão parcial
+Tabela 
+ SEQ Tabela \* ARABIC 
+5
+ - Augmentações treino
+Verificações de Qualidade
+Distribuição por classe:
+ Verificada como equilibrada, dado que existe apenas 1 classe.
+Duplicados:
+ O Roboflow realiza verificação automática de duplicados durante o upload.
+Consistência de etiquetas:
+ Verificada visualmente por amostragem aleatória de imagens anotadas.
+Modelo(s) e Configuração de Treino
+Arquitetura e Pipeline de Treino
+Foram treinados 4 modelos utilizando a framework Ultralytics YOLOv8, com treino local:
+Modelo
+Arquitetura
+Dataset
+Épocas
+Motivação
+Nano Shelves (v1.0)
+YOLOv8n
+Shelves
+50
+Modelo base — rápido e leve
+Small Shelves (v2.0)
+YOLOv8s
+Shelves
+150
+Avaliar se mais parâmetros melhoram desempenho
+Nano SKU (v3.0)
+YOLOv8n
+SKU-110K
+50
+Avaliar impacto de dataset maior e mais diverso
+Nano Pallets (v4.0)
+YOLOv8n
+Pallets
+50
+Transfer learning do SKU para domínio de armazém
+Tabela 
+ SEQ Tabela \* ARABIC 
+6
+ - Modelos
+O treino foi realizado localmente em vez do Roboflow, utilizando o script `train.py` com a biblioteca Ultralytics. Todas as configurações de treino são reproduzíveis a partir dos ficheiros `train_config.yaml` incluídos em cada pasta de modelo.
+Hiperparâmetros
+Parâmetro
+Valor
+Optimizer
+Auto (SGD)
+Learning Rate (lr0)
+0.01
+LR Final (lrf)
+0.01
+Momentum
+0.937
+Weight Decay
+0.0005
+Warmup Epochs
+3.0
+Batch Size
+16
+Image Size
+640×640
+AMP
+Ativado
+Tabela 
+ SEQ Tabela \* ARABIC 
+7
+ - Hiperparâmetros
+Hardware Utilizado
+GPU:
+ NVIDIA GeForce RTX 4060 (8GB VRAM)
+CPU:
+ AMD Ryzen 7 5700X (16 
+threads @
+ 4.65 GHz)
+RAM:
+ 32 GB DDR4
+SO:
+ Windows 11
+Tempos de treino:
+Nano Shelves (50 epochs): ~1.1 horas
+Small Shelves (150 epochs): ~4.7 horas
+Nano SKU (50 epochs): ~5.2 horas
+Nano Pallets (50 epochs): ~6 minutos
+Resultados da Avaliação
+Métricas Padrão no Conjunto de Validação
+Modelo
+mAP@0.5
+mAP@0.5:0.95
+Precision
+Recall
+Nano Shelves (50ep)
+0.867
+0.506
+0.879
+0.811
+Small Shelves (150ep)
+0.865
+0.499
+0.884
+0.827
+Nano SKU (50ep)
+0.899
+0.553
+0.901
+0.840
+Nano Pallets (50ep)
+0.987
+0.758
+0.960
+0.976
+Tabela 
+ SEQ Tabela \* ARABIC 
+8
+ - Métricas nos modelos
+As pastas de cada modelo incluem exemplos visuais de previsões corretas (`val_batch*_pred.jpg`) e as labels reais (`val_batch*_labels.jpg`), bem como matrizes de confusão normalizadas e curvas de treino (`results.png`).
+Análise de Resultados e Erro
+A tabela seguinte apresenta os resultados desagregados por classe para cada modelo. Uma vez que o dataset contém apenas 1 classe (item), os resultados por classe coincidem com os resultados globais
+.
+Modelo
+Classe
+Instâncias
+Precision
+Recall
+mAP@0.5
+mAP@0.5:0.95
+Nano Shelves (50ep)
+item
+—
+0.879
+0.811
+0.867
+0.506
+Small Shelves (150ep)
+item
+—
+0.884
+0.827
+0.865
+0.499
+Nano SKU (50ep)
+item
+—
+0.901
+0.840
+0.899
+0.553
+Nano Pallets (50ep)
+item
+—
+0.960
+0.976
+0.987
+0.758
+Tabela 
+ SEQ Tabela \* ARABIC 
+9
+ - Análise resultados
+Observação fundamental:
+ O modelo Nano treinado no SKU-110K (11k imagens) superou significativamente os dois modelos treinados no dataset Shelves (1.6k imagens), mesmo usando a mesma arquitetura mais leve (Nano). Isto demonstra que a 
+qualidade e diversidade do dataset
+ é mais determinante para o desempenho do que o tamanho da arquitetura da rede.
+Comparação Nano vs Small no mesmo dataset:
+ O modelo Small (150 épocas) obteve métricas praticamente idênticas ao Nano (50 épocas) — mAP50 de 0.865 vs 0.867. Isto indica que o estrangulamento (bottleneck) reside no dataset e não na capacidade da rede. O modelo Nano é preferível por ser mais rápido (~3.2ms vs ~5.5ms).
+Modos comuns de falha:
+Falsos positivos:
+ Etiquetas de preço coloridas podem ser detetadas como produtos quando o limiar de confiança está muito baixo (<0.3).
+Falsos negativos:
+ Produtos em zonas de sombra ou com embalagens muito escuras podem não ser detetados.
+Fusão de bounding boxes:
+ Produtos muito próximos uns dos outros podem ocasionalmente ser fundidos numa única deteção.
+Mitigações sugeridas:
+Utilizar limiar de confiança ≥ 0.50 para produção.
+Para ambientes com iluminação deficiente, reduzir para 0.35 com supervisão humana.
+Para produção industrial, considerar treino com dados específicos do ambiente-alvo.
+Notas de Implementação
+Aplicação de Demonstração
+Foi desenvolvida uma aplicação web interativa utilizando 
+Streamlit
+, com 
+5
+ funcionalidades principais organizadas em tabs:
+1. 
+Inferência
+ — Upload de imagem, seleção de modelo via dropdown, visualização com bounding boxes, tabela de deteções estruturada com classe/confiança/coordenadas, e exportação JSON.
+2952750
+Figura 
+ SEQ Figura \* ARABIC 
+1
+ - Inferência
+Figura 
+ SEQ Figura \* ARABIC 
+1
+ - Inferência
+2. 
+Comparar Modelos
+ — Comparação visual lado a lado entre dois modelos selecionados sobre a mesma imagem.
+ 
+Figura 
+ SEQ Figura \* ARABIC 
+2
+ - Comparar modelos
+3. 
+Webcam ao Vivo
+ — Feed de vídeo em tempo real com inferência YOLO, permitindo auditoria visual instantânea de prateleiras.
+Figura 
+ SEQ Figura \* ARABIC 
+3
+ - Webcam ao vivo
+4. 
+Dashboard
+ — Painel com métricas comparativas dos 4 modelos, curvas de aprendizagem (lidas dos CSVs reais de treino), e matrizes de confusão.
+Figura 
+ SEQ Figura \* ARABIC 
+4
+ - Dashboard
+5. 
+Histórico
+ 
+—
+ S
+eleção de 
+registo 
+via dropdown, visualização com bounding boxes, tabela de deteções estruturada com classe/confiança/coordenadas, e exportação JSON.
+Figura 
+ SEQ Figura \* ARABIC 
+5
+ - Histórico
+Velocidade de Inferência e Tamanho dos Modelos
+Modelo
+Tamanho do Ficheiro
+Inferência (GPU)
+Arquitetura
+Nano Shelves
+6.25 MB
+~3.2 ms
+YOLOv8n
+Small Shelves
+22.5 MB
+~5.5 ms
+YOLOv8s
+Nano SKU
+6.25 MB
+~3.2 ms
+YOLOv8n
+Nano Pallets
+6.25 MB
+~3.2 ms
+YOLOv8n
+Tabela 
+ SEQ Tabela \* ARABIC 
+10
+ - Velocidade e tamanho dos modelos
+Os modelos Nano são altamente viáveis para edge computing e dispositivos com recursos limitados.
+Parâmetros e Configurações
+Limiar de confiança recomendado:
+ 0.50 (padrão). Configurável na barra lateral da aplicação entre 0.10 e 1.00.
+Resolução de input:
+ 640×640 (normalização automática pelo YOLOv8).
+Formato de saída:
+ Bounding boxes em formato YOLO + JSON exportável com classe, confiança e coordenadas.
+Ponto de Entrada para Inferência (CLI)
+Além da aplicação gráfica, é fornecido um script CLI (`infer.py`) para inferência direta:
+python infer.py --model modelos/yolov8n_sku/weights.pt --image caminho/imagem.jpg --conf 0.5
+Este produz:
+Imagem anotada com bounding boxes guardada em disco.
+Saída JSON estruturada com todas as deteções (impressa no terminal e guardada num ficheiro `_detections.json`).
+Conclusões e Trabalho Futuro
+O projeto demonstrou com sucesso a viabilidade de sistemas de deteção de objetos para monitorização de prateleiras em ambientes industriais. A principal conclusão técnica é que 
+a dimensão e diversidade do dataset são fatores mais determinantes que a complexidade da arquitetura
+ — o modelo Nano treinado no SKU-110K (11k imagens) superou o modelo Small treinado num dataset 7× mais pequeno.
+Trabalho futuro planeado:
+Integração de leitura de códigos QR/barras para identificação automática de produtos.
+Implementação de lógica de deteção de ruturas de stock (colunas sem produtos).
+Treino com múltiplas classes para diferenciação de categorias de produto.
+Validação em ambientes industriais reais com câmaras fixas.
+Bibliography
+ BIBLIOGRAPHY 
+Goldman, E. e. (s.d.). Precise Detection in Densely Packed Scenes. 
+CVPR 2019
+. Obtido de CVPR 2019. (Dataset SKU-110K).
+Jocher, G. C. (2023). 
+Ultralytics YOLO
+. Obtido de https://github.com/ultralytics/ultralytics
+Roboflow. (2024). 
+Computer Vision Tools and Platform
+. 
+Obtido de https://roboflow.com/

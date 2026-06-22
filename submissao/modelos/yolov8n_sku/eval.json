@@ -1,0 +1,8 @@
+{
+    "model": "YOLOv8 Nano (SKU-110K)",
+    "dataset": "../../dataset_sku110k/data.yaml",
+    "mAP50": 0.9000,
+    "mAP50_95": 0.5550,
+    "precision": 0.8980,
+    "recall": 0.8440
+}
